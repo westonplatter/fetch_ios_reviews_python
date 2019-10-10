@@ -35,10 +35,15 @@ def get_reviews(app_id, page_num):
     return reviews
 
 
-def get_all_reivews(app_id):
+def get_all_reivews(app_id, filename):
     headers = ['review_id', 'title', 'author', 'author_url', 'version', 'rating', 'review', 'vote_count']
 
-    with open('results.csv', 'w') as f:
+    if filename:
+        compiled_filename = f"{filename}_{app_id}.csv"
+    else:
+        compiled_filename = f"{app_id}.csv"
+
+    with open(compiled_filename, 'w') as f:
         writer = csv.writer(f)
         writer.writerow(headers)
 
@@ -61,4 +66,9 @@ if __name__ == '__main__':
     #
     #
     app_id = str(sys.argv[1])
-    get_all_reivews(app_id)
+
+    filename = None
+    if sys.argv[2] != None or sys.argv[2] != '':
+        filename = sys.argv[2]
+
+    get_all_reivews(app_id, filename)
